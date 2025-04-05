@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PixelPerfect Pro - Image Resizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PixelPerfect Mobile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,23 +14,25 @@
             --light: #f8f9fa;
             --gray: #6c757d;
             --success: #4cc9f0;
-            --border-radius: 12px;
-            --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --border-radius: 10px;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s ease;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         body {
             background-color: var(--light);
             color: var(--dark);
-            line-height: 1.6;
+            line-height: 1.5;
             transition: var(--transition);
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
         }
 
         body.dark-mode {
@@ -39,50 +41,48 @@
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
+            width: 100%;
+            padding: 1rem;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            display: inline-block;
         }
 
         .theme-toggle {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             cursor: pointer;
             color: var(--gray);
             transition: var(--transition);
-        }
-
-        .theme-toggle:hover {
-            color: var(--primary);
+            padding: 0.5rem;
         }
 
         .app-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
 
         .upload-section {
             background: white;
             border-radius: var(--border-radius);
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
@@ -99,41 +99,48 @@
             border: 2px dashed var(--gray);
             border-radius: var(--border-radius);
             width: 100%;
-            padding: 3rem;
+            padding: 1.5rem;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
-            margin-bottom: 1.5rem;
-        }
-
-        .drop-area:hover, .drop-area.highlight {
-            border-color: var(--primary);
-            background: rgba(67, 97, 238, 0.05);
+            margin-bottom: 1rem;
         }
 
         .drop-area i {
-            font-size: 3rem;
+            font-size: 2rem;
             color: var(--primary);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .drop-area h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .drop-area p {
+            font-size: 0.8rem;
+            color: var(--gray);
         }
 
         .btn {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 0.7rem 1.2rem;
             border-radius: var(--border-radius);
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 500;
+            font-size: 0.9rem;
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            width: 100%;
+            justify-content: center;
         }
 
-        .btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
+        .btn i {
+            font-size: 0.9rem;
         }
 
         .btn-outline {
@@ -142,18 +149,10 @@
             color: var(--primary);
         }
 
-        .btn-outline:hover {
-            background: rgba(67, 97, 238, 0.1);
-        }
-
-        .btn i {
-            font-size: 1rem;
-        }
-
         .controls-section {
             background: white;
             border-radius: var(--border-radius);
-            padding: 2rem;
+            padding: 1.2rem;
             box-shadow: var(--shadow);
             transition: var(--transition);
         }
@@ -163,38 +162,30 @@
         }
 
         h2 {
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
             color: var(--primary);
         }
 
         .control-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             font-weight: 500;
-        }
-
-        .dimension-controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .dimension-input {
-            flex: 1;
+            font-size: 0.9rem;
         }
 
         input[type="number"], input[type="range"], select {
             width: 100%;
-            padding: 0.8rem;
+            padding: 0.7rem;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
             background: white;
             transition: var(--transition);
+            font-size: 0.9rem;
         }
 
         .dark-mode input[type="number"], 
@@ -205,30 +196,30 @@
             color: white;
         }
 
-        input[type="number"]:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        .dimension-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .dimension-input {
+            flex: 1;
         }
 
         .lock-aspect {
             background: none;
             border: none;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
             color: var(--gray);
             transition: var(--transition);
-            padding: 0.5rem;
-        }
-
-        .lock-aspect:hover, .lock-aspect.active {
-            color: var(--primary);
+            padding: 0.4rem;
         }
 
         .preset-buttons {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 0.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
             margin-top: 0.5rem;
         }
 
@@ -236,14 +227,13 @@
             background: rgba(67, 97, 238, 0.1);
             border: none;
             border-radius: 6px;
-            padding: 0.5rem;
-            font-size: 0.8rem;
+            padding: 0.5rem 0.3rem;
+            font-size: 0.7rem;
             cursor: pointer;
             transition: var(--transition);
-        }
-
-        .preset-btn:hover {
-            background: rgba(67, 97, 238, 0.2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .preset-btn.active {
@@ -252,13 +242,13 @@
         }
 
         .transform-buttons {
-            display: flex;
-            gap: 0.5rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.4rem;
             margin-top: 0.5rem;
         }
 
         .transform-btn {
-            flex: 1;
             background: rgba(67, 97, 238, 0.1);
             border: none;
             border-radius: 6px;
@@ -266,24 +256,21 @@
             cursor: pointer;
             transition: var(--transition);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.3rem;
-        }
-
-        .transform-btn:hover {
-            background: rgba(67, 97, 238, 0.2);
+            font-size: 0.7rem;
         }
 
         .transform-btn i {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.2rem;
         }
 
         .preview-section {
-            grid-column: span 2;
             background: white;
             border-radius: var(--border-radius);
-            padding: 2rem;
+            padding: 1.2rem;
             box-shadow: var(--shadow);
             transition: var(--transition);
         }
@@ -293,29 +280,28 @@
         }
 
         .preview-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .image-preview {
             border-radius: var(--border-radius);
             overflow: hidden;
             position: relative;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
         }
 
         .image-preview img {
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.3s ease;
         }
 
         .image-info {
             margin-top: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--gray);
             display: flex;
             justify-content: space-between;
@@ -323,26 +309,58 @@
 
         .action-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 2rem;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
         }
 
         .hidden {
             display: none;
         }
 
-        @media (max-width: 768px) {
-            .app-container {
-                grid-template-columns: 1fr;
-            }
+        /* Tabs for mobile */
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1rem;
+        }
 
-            .preview-container {
-                grid-template-columns: 1fr;
-            }
+        .dark-mode .tab-container {
+            border-bottom-color: #333;
+        }
 
+        .tab {
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 400px) {
+            .preset-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (min-width: 500px) {
             .action-buttons {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
         }
     </style>
@@ -350,7 +368,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>PixelPerfect Pro</h1>
+            <h1>PixelPerfect</h1>
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-moon"></i>
             </button>
@@ -360,107 +378,114 @@
             <div class="upload-section">
                 <div class="drop-area" id="dropArea">
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <h3>Drag & Drop Your Image Here</h3>
-                    <p>or click to browse files</p>
+                    <h3>Tap to Upload Image</h3>
+                    <p>or drag & drop</p>
                     <input type="file" id="fileInput" accept="image/*" class="hidden">
                 </div>
-                <button class="btn" id="browseBtn">
-                    <i class="fas fa-folder-open"></i> Browse Files
-                </button>
             </div>
 
             <div class="controls-section">
-                <h2>Resize Options</h2>
-                
-                <div class="control-group">
-                    <label for="resizeMode">Resize Mode</label>
-                    <select id="resizeMode">
-                        <option value="dimensions">Exact Dimensions</option>
-                        <option value="percentage">Percentage</option>
-                        <option value="longest">Longest Side</option>
-                        <option value="preset">Preset Sizes</option>
-                    </select>
+                <div class="tab-container">
+                    <div class="tab active" data-tab="resize">Resize</div>
+                    <div class="tab" data-tab="transform">Transform</div>
+                    <div class="tab" data-tab="output">Output</div>
                 </div>
 
-                <div class="control-group" id="dimensionsControl">
-                    <label>Dimensions (px)</label>
-                    <div class="dimension-controls">
-                        <div class="dimension-input">
-                            <input type="number" id="widthInput" placeholder="Width" min="1">
+                <div class="tab-content active" id="resizeTab">
+                    <div class="control-group">
+                        <label for="resizeMode">Resize Mode</label>
+                        <select id="resizeMode">
+                            <option value="dimensions">Exact Size</option>
+                            <option value="percentage">Percentage</option>
+                            <option value="longest">Longest Side</option>
+                            <option value="preset">Presets</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group" id="dimensionsControl">
+                        <label>Dimensions (px)</label>
+                        <div class="dimension-controls">
+                            <div class="dimension-input">
+                                <input type="number" id="widthInput" placeholder="Width" min="1">
+                            </div>
+                            <button class="lock-aspect" id="lockAspect">
+                                <i class="fas fa-lock"></i>
+                            </button>
+                            <div class="dimension-input">
+                                <input type="number" id="heightInput" placeholder="Height" min="1">
+                            </div>
                         </div>
-                        <button class="lock-aspect" id="lockAspect">
-                            <i class="fas fa-lock"></i>
-                        </button>
-                        <div class="dimension-input">
-                            <input type="number" id="heightInput" placeholder="Height" min="1">
+                    </div>
+
+                    <div class="control-group hidden" id="percentageControl">
+                        <label for="percentageInput">Percentage</label>
+                        <input type="number" id="percentageInput" placeholder="50" min="1" max="500" value="100">
+                    </div>
+
+                    <div class="control-group hidden" id="longestSideControl">
+                        <label for="longestSideInput">Longest Side (px)</label>
+                        <input type="number" id="longestSideInput" placeholder="1000" min="1">
+                    </div>
+
+                    <div class="control-group hidden" id="presetControl">
+                        <label>Preset Sizes</label>
+                        <div class="preset-buttons" id="presetButtons">
+                            <!-- Social Media -->
+                            <button class="preset-btn" data-width="1080" data-height="1080">IG Post</button>
+                            <button class="preset-btn" data-width="1080" data-height="1350">IG Portrait</button>
+                            <button class="preset-btn" data-width="1080" data-height="566">IG Landscape</button>
+                            <button class="preset-btn" data-width="1200" data-height="630">FB Post</button>
+                            <button class="preset-btn" data-width="1200" data-height="1200">Pinterest</button>
+                            <button class="preset-btn" data-width="1500" data-height="500">Twitter</button>
+                            
+                            <!-- Documents -->
+                            <button class="preset-btn" data-width="2550" data-height="3300">A4</button>
+                            <button class="preset-btn" data-width="2550" data-height="3300">Letter</button>
+                            <button class="preset-btn" data-width="2480" data-height="3508">A5</button>
+                            
+                            <!-- Devices -->
+                            <button class="preset-btn" data-width="1242" data-height="2688">iPhone</button>
+                            <button class="preset-btn" data-width="1440" data-height="2960">Galaxy</button>
+                            <button class="preset-btn" data-width="1920" data-height="1080">HD</button>
+                            <button class="preset-btn" data-width="3840" data-height="2160">4K</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="control-group hidden" id="percentageControl">
-                    <label for="percentageInput">Percentage</label>
-                    <input type="number" id="percentageInput" placeholder="50" min="1" max="500" value="100">
-                </div>
-
-                <div class="control-group hidden" id="longestSideControl">
-                    <label for="longestSideInput">Longest Side (px)</label>
-                    <input type="number" id="longestSideInput" placeholder="1000" min="1">
-                </div>
-
-                <div class="control-group hidden" id="presetControl">
-                    <label>Preset Sizes</label>
-                    <div class="preset-buttons" id="presetButtons">
-                        <!-- Social Media -->
-                        <button class="preset-btn" data-width="1080" data-height="1080">Instagram Post</button>
-                        <button class="preset-btn" data-width="1080" data-height="1350">Instagram Portrait</button>
-                        <button class="preset-btn" data-width="1080" data-height="566">Instagram Landscape</button>
-                        <button class="preset-btn" data-width="1200" data-height="630">Facebook Post</button>
-                        <button class="preset-btn" data-width="1200" data-height="1200">Pinterest Post</button>
-                        <button class="preset-btn" data-width="1500" data-height="500">Twitter Header</button>
-                        
-                        <!-- Documents -->
-                        <button class="preset-btn" data-width="2550" data-height="3300">A4 (300dpi)</button>
-                        <button class="preset-btn" data-width="2550" data-height="3300">Letter (300dpi)</button>
-                        <button class="preset-btn" data-width="2480" data-height="3508">A5 (300dpi)</button>
-                        
-                        <!-- Devices -->
-                        <button class="preset-btn" data-width="1242" data-height="2688">iPhone 12 Pro</button>
-                        <button class="preset-btn" data-width="1440" data-height="2960">Galaxy S20</button>
-                        <button class="preset-btn" data-width="1920" data-height="1080">HD Display</button>
-                        <button class="preset-btn" data-width="3840" data-height="2160">4K Display</button>
+                <div class="tab-content" id="transformTab">
+                    <div class="control-group">
+                        <label>Image Transform</label>
+                        <div class="transform-buttons">
+                            <button class="transform-btn" id="rotateLeftBtn">
+                                <i class="fas fa-undo"></i> Left
+                            </button>
+                            <button class="transform-btn" id="rotateRightBtn">
+                                <i class="fas fa-redo"></i> Right
+                            </button>
+                            <button class="transform-btn" id="flipHorizontalBtn">
+                                <i class="fas fa-arrows-alt-h"></i> Flip H
+                            </button>
+                            <button class="transform-btn" id="flipVerticalBtn">
+                                <i class="fas fa-arrows-alt-v"></i> Flip V
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="control-group">
-                    <label for="outputFormat">Output Format</label>
-                    <select id="outputFormat">
-                        <option value="original">Original</option>
-                        <option value="jpeg">JPEG</option>
-                        <option value="png">PNG</option>
-                        <option value="webp">WebP</option>
-                    </select>
-                </div>
+                <div class="tab-content" id="outputTab">
+                    <div class="control-group">
+                        <label for="outputFormat">Output Format</label>
+                        <select id="outputFormat">
+                            <option value="original">Original</option>
+                            <option value="jpeg">JPEG</option>
+                            <option value="png">PNG</option>
+                            <option value="webp">WebP</option>
+                        </select>
+                    </div>
 
-                <div class="control-group" id="qualityControl">
-                    <label for="qualityInput">Quality: <span id="qualityValue">85</span>%</label>
-                    <input type="range" id="qualityInput" min="1" max="100" value="85">
-                </div>
-
-                <div class="control-group">
-                    <label>Image Transform</label>
-                    <div class="transform-buttons">
-                        <button class="transform-btn" id="rotateLeftBtn">
-                            <i class="fas fa-undo"></i> Left
-                        </button>
-                        <button class="transform-btn" id="rotateRightBtn">
-                            <i class="fas fa-redo"></i> Right
-                        </button>
-                        <button class="transform-btn" id="flipHorizontalBtn">
-                            <i class="fas fa-arrows-alt-h"></i> Flip H
-                        </button>
-                        <button class="transform-btn" id="flipVerticalBtn">
-                            <i class="fas fa-arrows-alt-v"></i> Flip V
-                        </button>
+                    <div class="control-group" id="qualityControl">
+                        <label for="qualityInput">Quality: <span id="qualityValue">85</span>%</label>
+                        <input type="range" id="qualityInput" min="1" max="100" value="85">
                     </div>
                 </div>
             </div>
@@ -489,7 +514,7 @@
                 </div>
                 <div class="action-buttons">
                     <button class="btn download-btn" id="downloadBtn">
-                        <i class="fas fa-download"></i> Download Image
+                        <i class="fas fa-download"></i> Download
                     </button>
                     <button class="btn btn-outline" id="saveDeviceBtn">
                         <i class="fas fa-save"></i> Save to Device
@@ -504,7 +529,6 @@
             // DOM Elements
             const dropArea = document.getElementById('dropArea');
             const fileInput = document.getElementById('fileInput');
-            const browseBtn = document.getElementById('browseBtn');
             const themeToggle = document.getElementById('themeToggle');
             const previewSection = document.getElementById('previewSection');
             const originalPreview = document.getElementById('originalPreview');
@@ -533,6 +557,8 @@
             const rotateRightBtn = document.getElementById('rotateRightBtn');
             const flipHorizontalBtn = document.getElementById('flipHorizontalBtn');
             const flipVerticalBtn = document.getElementById('flipVerticalBtn');
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
 
             // State variables
             let originalImage = null;
@@ -545,9 +571,8 @@
             let originalFileType = '';
 
             // Event Listeners
-            browseBtn.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', handleFileSelect);
             dropArea.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileSelect);
             dropArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 dropArea.classList.add('highlight');
@@ -599,6 +624,17 @@
             flipVerticalBtn.addEventListener('click', () => {
                 isFlippedVertical = !isFlippedVertical;
                 updateResizedImage();
+            });
+
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.tab}Tab`).classList.add('active');
+                });
             });
 
             // Initialize
