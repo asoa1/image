@@ -1,776 +1,275 @@
-age size Convertor app. 
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Image Size Converter</title>
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vanishing Keepers Puzzle</title>
     <style>
-
-        * {
-
-            box-sizing: border-box;
-
-            margin: 0;
-
-            padding: 0;
-
-        }
-
-
-
         body {
-
-            font-family: 'Roboto', sans-serif;
-
-            background: #f0f2f5;
-
-            color: #333;
-
-            min-height: 100vh;
-
-            padding: 1rem;
-
-        }
-
-
-
-        .container {
-
-            background: white;
-
-            max-width: 600px;
-
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            max-width: 800px;
             margin: 0 auto;
-
-            padding: 2rem;
-
-            border-radius: 16px;
-
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-
+            padding: 20px;
+            line-height: 1.6;
         }
-
-
-
-        h1 {
-
+        h1, h2, h3 {
+            color: #0f0;
             text-align: center;
-
-            color: #2d3436;
-
-            margin-bottom: 2rem;
-
-            font-size: 1.8rem;
-
+            text-shadow: 0 0 5px #0f0;
         }
-
-
-
-        .upload-section {
-
-            border: 2px dashed #b2bec3;
-
-            border-radius: 12px;
-
-            padding: 2rem;
-
+        .container {
+            border: 1px solid #0f0;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 0 10px #0f0;
+        }
+        .hidden {
+            display: none;
+        }
+        .puzzle-step {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #0f0;
+        }
+        .encrypted {
+            letter-spacing: 3px;
+            font-size: 1.2em;
             text-align: center;
-
-            margin-bottom: 2rem;
-
-            position: relative;
-
-            transition: all 0.3s ease;
-
+            margin: 20px 0;
         }
-
-
-
-        .upload-section:hover {
-
-            border-color: #6c5ce7;
-
-            background: #f8f9fa;
-
-        }
-
-
-
-        #imageInput {
-
-            opacity: 0;
-
-            position: absolute;
-
-            top: 0;
-
-            left: 0;
-
-            width: 100%;
-
-            height: 100%;
-
-            cursor: pointer;
-
-        }
-
-
-
-        .upload-label {
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            gap: 1rem;
-
-            color: #636e72;
-
-        }
-
-
-
-        .upload-icon {
-
-            font-size: 2.5rem;
-
-            color: #6c5ce7;
-
-        }
-
-
-
-        .dimension-controls {
-
-            display: grid;
-
-            gap: 1rem;
-
-            margin-bottom: 1.5rem;
-
-        }
-
-
-
-        .input-group {
-
-            position: relative;
-
-        }
-
-
-
-        .input-group label {
-
-            display: block;
-
-            margin-bottom: 0.5rem;
-
-            color: #2d3436;
-
-            font-weight: 500;
-
-        }
-
-
-
-        .input-group input {
-
-            width: 100%;
-
-            padding: 0.8rem;
-
-            border: 2px solid #dfe6e9;
-
-            border-radius: 8px;
-
-            font-size: 1rem;
-
-            transition: border-color 0.3s ease;
-
-        }
-
-
-
-        .input-group input:focus {
-
-            outline: none;
-
-            border-color: #6c5ce7;
-
-        }
-
-
-
-        .aspect-ratio-toggle {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 0.5rem;
-
-            margin-bottom: 1.5rem;
-
-        }
-
-
-
-        .switch {
-
-            position: relative;
-
-            display: inline-block;
-
-            width: 48px;
-
-            height: 24px;
-
-        }
-
-
-
-        .switch input {
-
-            opacity: 0;
-
-            width: 0;
-
-            height: 0;
-
-        }
-
-
-
-        .slider {
-
-            position: absolute;
-
-            cursor: pointer;
-
-            top: 0;
-
-            left: 0;
-
-            right: 0;
-
-            bottom: 0;
-
-            background-color: #dfe6e9;
-
-            transition: .4s;
-
-            border-radius: 34px;
-
-        }
-
-
-
-        .slider:before {
-
-            position: absolute;
-
-            content: "";
-
-            height: 20px;
-
-            width: 20px;
-
-            left: 2px;
-
-            bottom: 2px;
-
-            background-color: white;
-
-            transition: .4s;
-
-            border-radius: 50%;
-
-        }
-
-
-
-        input:checked + .slider {
-
-            background-color: #6c5ce7;
-
-        }
-
-
-
-        input:checked + .slider:before {
-
-            transform: translateX(24px);
-
-        }
-
-
-
         button {
-
-            background: #6c5ce7;
-
-            color: white;
-
-            width: 100%;
-
-            padding: 1rem;
-
-            border: none;
-
-            border-radius: 8px;
-
-            font-size: 1.1rem;
-
-            font-weight: 500;
-
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px 15px;
             cursor: pointer;
-
-            transition: transform 0.2s ease, opacity 0.2s ease;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 0.5rem;
-
+            margin: 10px 0;
         }
-
-
-
-        button:active {
-
-            transform: scale(0.98);
-
-            opacity: 0.9;
-
+        button:hover {
+            background-color: #0f0;
+            color: #000;
         }
-
-
-
-        #preview {
-
-            width: 100%;
-
-            max-height: 300px;
-
-            object-fit: contain;
-
-            border-radius: 12px;
-
-            margin-top: 1.5rem;
-
-            display: none;
-
+        #final-site {
+            background-color: #111;
+            padding: 20px;
+            margin-top: 30px;
         }
-
-
-
-        #downloadLink {
-
-            display: none;
-
-            margin-top: 1.5rem;
-
+        .image-clue {
             text-align: center;
-
-            background: #00b894;
-
-            color: white;
-
-            padding: 1rem;
-
-            border-radius: 8px;
-
-            text-decoration: none;
-
-            font-weight: 500;
-
+            margin: 20px 0;
         }
-
-
-
-        .loading {
-
-            position: fixed;
-
-            top: 0;
-
-            left: 0;
-
-            right: 0;
-
-            bottom: 0;
-
-            background: rgba(255,255,255,0.9);
-
+        .image-clue img {
+            max-width: 100%;
+            border: 1px solid #0f0;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .spoiler {
+            color: black;
+            background-color: black;
+        }
+        .spoiler:hover {
+            color: #0f0;
+        }
+        .logbook {
+            background-color: #111;
+            padding: 15px;
+            border-left: 3px solid #0f0;
+            font-style: italic;
+        }
+        .coordinates {
+            font-family: monospace;
+            color: #0ff;
+        }
+        input[type="text"] {
+            background-color: #111;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 8px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .prize-info {
+            border: 1px solid #f00;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 5px #f00; }
+            to { box-shadow: 0 0 20px #f00; }
+        }
+        .warning {
+            color: #f00;
+            font-weight: bold;
+        }
+        #reward {
             display: none;
-
-            align-items: center;
-
-            justify-content: center;
-
-            z-index: 1000;
-
         }
-
-
-
-        .spinner {
-
-            width: 40px;
-
-            height: 40px;
-
-            border: 4px solid #f3f3f3;
-
-            border-top: 4px solid #6c5ce7;
-
-            border-radius: 50%;
-
-            animation: spin 1s linear infinite;
-
-        }
-
-
-
-        @keyframes spin {
-
-            0% { transform: rotate(0deg); }
-
-            100% { transform: rotate(360deg); }
-
-        }
-
-
-
-        @media (max-width: 480px) {
-
-            .container {
-
-                padding: 1rem;
-
-                border-radius: 12px;
-
-            }
-
-            
-
-            h1 {
-
-                font-size: 1.5rem;
-
-            }
-
-        }
-
     </style>
-
 </head>
-
 <body>
-
     <div class="container">
-
-        <h1>📱 Image Resizer</h1>
-
+        <h1>THE VANISHING KEEPERS</h1>
+        <h3>A Puzzle That Will Haunt Your Dreams</h3>
         
+        <p>December 15, 1900. Three lighthouse keepers vanish without a trace from the remote Flannan Isles. The door was locked from the inside. The clocks had stopped. The last log entry reads: <em>"Storm ended, sea calm. God is over all."</em></p>
+        
+        <p>For 123 years, their disappearance remained unsolved... until today.</p>
+        
+        <p class="warning">WARNING: What you're about to discover was suppressed by the British government. Proceed at your own risk.</p>
 
-        <div class="upload-section">
-
-            <input type="file" id="imageInput" accept="image/*">
-
-            <label for="imageInput" class="upload-label">
-
-                <i class="fas fa-cloud-upload-alt upload-icon"></i>
-
-                <span>Tap to upload image</span>
-
-            </label>
-
-        </div>
-
-
-
-        <div class="dimension-controls">
-
-            <div class="input-group">
-
-                <label>Width (px)</label>
-
-                <input type="number" id="width" min="1">
-
-            </div>
-
+        <div class="puzzle-step" id="step1">
+            <h2>Chapter 1: The Encrypted Message</h2>
+            <p>During the 2023 lighthouse renovation, workers discovered a rusted metal box cemented into the basement walls. Inside was a single sheet of paper with this message:</p>
             
-
-            <div class="input-group">
-
-                <label>Height (px)</label>
-
-                <input type="number" id="height" min="1">
-
+            <div class="encrypted">
+                <p>VHFUHW PHVVDJH LV KLGGHQ LQ WKH ZDYHV</p>
+                <p class="coordinates">57.7206° N, 7.5900° W</p>
             </div>
-
+            
+            <p>The coordinates point to a location 3.2 nautical miles northwest of Eilean Mòr.</p>
+            
+            <p><strong>Step 1:</strong> Decipher the encrypted message using a cipher common in 1900 telegraph communications.</p>
+            
+            <div id="solution1">
+                <input type="text" id="answer1" placeholder="Enter the decrypted message">
+                <button onclick="checkAnswer(1)">Submit</button>
+            </div>
         </div>
-
-
-
-        <div class="aspect-ratio-toggle">
-
-            <span>Lock Aspect Ratio:</span>
-
-            <label class="switch">
-
-                <input type="checkbox" id="lockAspect" checked>
-
-                <span class="slider"></span>
-
-            </label>
-
+        
+        <div class="puzzle-step hidden" id="step2">
+            <h2>Chapter 2: The Distress Signal</h2>
+            <p>Your decryption reveals the terrible truth: <em>"THIS MESSAGE IS HIDDEN IN THE WAVES"</em>.</p>
+            
+            <p>In 1901, a lifeboat washed ashore near Stornoway with a single survivor who carried this symbol carved into a piece of driftwood:</p>
+            
+            <div class="image-clue">
+                <img src="https://i.imgur.com/9zQ4XJm.png" alt="Mysterious symbols">
+            </div>
+            
+            <p><strong>Step 2:</strong> This symbol appears at 2:17 in a rare documentary called "The Flannan Isles Enigma". Find the video and identify what this distress signal represents.</p>
+            
+            <div id="solution2">
+                <input type="text" id="answer2" placeholder="What does this distress signal mean?">
+                <button onclick="checkAnswer(2)">Submit</button>
+            </div>
         </div>
-
-
-
-        <button onclick="convertImage()">
-
-            <i class="fas fa-file-export"></i>
-
-            Convert Image
-
-        </button>
-
-
-
-        <img id="preview" alt="Preview">
-
-        <a id="downloadLink" download="resized-image.jpg">
-
-            <i class="fas fa-download"></i>
-
-            Download Image
-
-        </a>
-
+        
+        <div class="puzzle-step hidden" id="step3">
+            <h2>Chapter 3: The Last Photograph</h2>
+            <p>Your research reveals the symbol means <em>"ENTITY APPROACHING FROM BELOW"</em>.</p>
+            
+            <p>This photograph was taken by relief keeper Joseph Moore on December 12, 1900. Notice the anomaly in the upper left window:</p>
+            
+            <div class="image-clue">
+                <img src="https://i.imgur.com/5tR8vYf.jpg" alt="Last photo of the keepers">
+            </div>
+            
+            <p><strong>Step 3:</strong> The reflection contains hidden coordinates. Using image analysis tools, find the numbers hidden in the light patterns (format: XX.XXXX° N, XX.XXXX° W).</p>
+            
+            <div id="solution3">
+                <input type="text" id="answer3" placeholder="Enter the coordinates">
+                <button onclick="checkAnswer(3)">Submit</button>
+            </div>
+        </div>
+        
+        <div class="puzzle-step hidden" id="step4">
+            <h2>Chapter 4: The Classified Documents</h2>
+            <p>The coordinates point to a location near the Azores where the HMS Dreadnought reported "luminous shapes" in 1898.</p>
+            
+            <p>Declassified Admiralty documents reveal that lighthouse keepers were secretly monitoring unusual activity. This page from the classified logbook was smuggled out by a whistleblower:</p>
+            
+            <div class="logbook">
+                <p><strong>December 14, 1900 - 23:17:</strong> "Object sighted at 57.7206° N, 7.5900° W moving against current at 38 knots. Depth measurements impossible."</p>
+            </div>
+            
+            <p><strong>Step 4:</strong> The whistleblower hid a password in the HTML of a dark web archive. Find the page titled "Eilean Mor Truth" and locate the password in its source code.</p>
+            
+            <div id="solution4">
+                <input type="text" id="answer4" placeholder="Enter the password from source code">
+                <button onclick="checkAnswer(4)">Submit</button>
+            </div>
+        </div>
+        
+        <div class="puzzle-step hidden" id="step5">
+            <h2>Chapter 5: The Final Truth</h2>
+            <p>With the password, you access the final document - a 1901 letter from Captain Robert Harland:</p>
+            
+            <div class="logbook">
+                <p>"We have recovered three bodies... their eyes have been replaced with smooth spheres of an unknown metallic substance."</p>
+            </div>
+            
+            <div id="reward">
+                <div class="prize-info">
+                    <h3>CONGRATULATIONS PUZZLE SOLVER</h3>
+                    <p>You've uncovered one of history's darkest secrets.</p>
+                    <p>To claim your $100 reward, email the code:</p>
+                    <h2 class="blink">MANU</h2>
+                    <p>to:</p>
+                    <h2 class="warning">akinyemiabdulsalam2008@gmail.com</h2>
+                    <p>The first verified solver wins!</p>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-
-    <div class="loading">
-
-        <div class="spinner"></div>
-
-    </div>
-
-
 
     <script>
-
-        const imageInput = document.getElementById('imageInput');
-
-        const widthInput = document.getElementById('width');
-
-        const heightInput = document.getElementById('height');
-
-        const lockAspect = document.getElementById('lockAspect');
-
-        const preview = document.getElementById('preview');
-
-        const downloadLink = document.getElementById('downloadLink');
-
-        const loading = document.querySelector('.loading');
-
-
-
-        let originalWidth, originalHeight, aspectRatio;
-
-
-
-        imageInput.addEventListener('change', function(e) {
-
-            const file = e.target.files[0];
-
-            if (file) {
-
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-
-                    preview.style.display = 'block';
-
-                    preview.src = e.target.result;
-
-                    
-
-                    const img = new Image();
-
-                    img.onload = function() {
-
-                        originalWidth = img.width;
-
-                        originalHeight = img.height;
-
-                        aspectRatio = originalWidth / originalHeight;
-
-                        
-
-                        widthInput.value = originalWidth;
-
-                        heightInput.value = originalHeight;
-
-                    };
-
-                    img.src = e.target.result;
-
-                };
-
-                reader.readAsDataURL(file);
-
-            }
-
-        });
-
-
-
-        // Maintain aspect ratio logic
-
-        widthInput.addEventListener('input', updateHeight);
-
-        heightInput.addEventListener('input', updateWidth);
-
-
-
-        function updateHeight() {
-
-            if (lockAspect.checked && aspectRatio) {
-
-                heightInput.value = Math.round(widthInput.value / aspectRatio);
-
-            }
-
-        }
-
-
-
-        function updateWidth() {
-
-            if (lockAspect.checked && aspectRatio) {
-
-                widthInput.value = Math.round(heightInput.value * aspectRatio);
-
-            }
-
-        }
-
-
-
-        async function convertImage() {
-
-            const width = parseInt(widthInput.value);
-
-            const height = parseInt(heightInput.value);
-
+        function checkAnswer(stepNum) {
+            const userInput = document.getElementById(`answer${stepNum}`).value.toLowerCase().trim();
+            let isCorrect = false;
             
-
-            if (!width || !height) {
-
-                showError('Please enter valid dimensions');
-
-                return;
-
+            switch(stepNum) {
+                case 1:
+                    isCorrect = [
+                        "this message is hidden in the waves",
+                        "the message is hidden in the waves",
+                        "hidden in the waves"
+                    ].some(answer => userInput.includes(answer));
+                    break;
+                case 2:
+                    isCorrect = [
+                        "entity approaching from below",
+                        "non human entity approaching",
+                        "unknown entity approaching"
+                    ].some(answer => userInput.includes(answer));
+                    break;
+                case 3:
+                    isCorrect = [
+                        "37.2345° n, 24.8765° w",
+                        "37.2345 n, 24.8765 w",
+                        "37.2345, 24.8765"
+                    ].some(answer => userInput.includes(answer));
+                    break;
+                case 4:
+                    isCorrect = [
+                        "th3_l1ght_h4s_l13s",
+                        "the_light_has_lies",
+                        "th3l1ghth4sl13s"
+                    ].some(answer => userInput.includes(answer));
+                    break;
             }
-
-
-
-            if (!preview.src) {
-
-                showError('Please upload an image first');
-
-                return;
-
+            
+            if (isCorrect) {
+                document.getElementById(`step${stepNum}`).classList.add('hidden');
+                if (stepNum === 4) {
+                    document.getElementById('reward').style.display = 'block';
+                } else {
+                    document.getElementById(`step${stepNum+1}`).classList.remove('hidden');
+                }
+                window.scrollTo(0, 0);
+            } else {
+                alert("Incorrect. The keepers' spirits resist your efforts. Try again.");
             }
-
-
-
-            loading.style.display = 'flex';
-
-            
-
-            setTimeout(() => { // Simulate processing time
-
-                const canvas = document.createElement('canvas');
-
-                const ctx = canvas.getContext('2d');
-
-                
-
-                canvas.width = width;
-
-                canvas.height = height;
-
-
-
-                ctx.drawImage(preview, 0, 0, width, height);
-
-
-
-                canvas.toBlob(blob => {
-
-                    const url = URL.createObjectURL(blob);
-
-                    downloadLink.href = url;
-
-                    downloadLink.style.display = 'block';
-
-                    loading.style.display = 'none';
-
-                    window.scrollTo(0, document.body.scrollHeight);
-
-                }, 'image/jpeg', 0.9);
-
-            }, 500);
-
         }
-
-
-
-        function showError(message) {
-
-            const error = document.createElement('div');
-
-            error.className = 'error-toast';
-
-            error.textContent = message;
-
-            document.body.appendChild(error);
-
-            
-
-            setTimeout(() => {
-
-                error.remove();
-
-            }, 3000);
-
-        }
-
     </script>
-
 </body>
-
 </html>
